@@ -1,12 +1,14 @@
 //1.引入express web应用框架
 const express = require('express');
 const path = require('path');
-
+const bodyParser = require('body-parser');
 
 //2.创建app应用
 const app = express();
 
 
+// parse application/x-www-form-urlencoded   处理post请求,解析成对象
+app.use(bodyParser.urlencoded({ extended: false }))
 
 //3.使用集成路由分发
 const accountRouter = require(path.join(__dirname, '/routers/accountRouter.js'));

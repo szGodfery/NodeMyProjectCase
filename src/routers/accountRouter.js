@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 
+
 //引入account控制模块处理逻辑
 const accountCTRL = require(path.join(__dirname, '../controllers/accountControllerRouter'));
 
@@ -11,8 +12,11 @@ const accountRouter = express.Router();
 //3,处理传递过来的请求
 //3.1处理登录页面请求
 accountRouter.get('/login.html', accountCTRL.getLoginPage);
-//3.2处理注册请求
+//3.2处理注册页面请求
 accountRouter.get('/register.html', accountCTRL.getRegisterPage);
+
+//3.3处理注册请求
+accountRouter.post('/register', accountCTRL.registerInfo);
 
 
 

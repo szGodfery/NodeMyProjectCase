@@ -41,20 +41,26 @@
 </body>
 <script>
     function register() {
-        //1.获取到用户输入的信息
-        const username = $("#usernameId").val()
-        const password = md5($("#passwordId").val() + "!@#ZZZ-_-")
-            //2.发送请求给服务器
-        $.post("/account/register", {
-            username,
-            password
-        }, function(result) {
-            if (result.status !== 0) {
-                alert(result.message)
-            } else { //跳转登录页面
-                window.location.href = '/account/login'
+        const username = $("#usernameId").val();
+        //这里密码使用MD5加密 并采用加盐技术
+        const password = md5($("#passwordId").val() + "!@#(*&");
+
+        $.post({
+            url: '/account/register',
+            data: {
+                username,
+                password
+            },
+            success: function(result) {
+                console.log(result);
+                if (result.status != 0) {
+                    alert(result.message);
+                } else {
+                    alert(result.message);
+                    location.href = '/account/login.html';
+                }
             }
-        });
+        })
     }
 </script>
 
