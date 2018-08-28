@@ -1,0 +1,25 @@
+{
+    "name": "NodeMyProjectCase",
+    "version": "1.0.0",
+    "description": "Node学生注册登录系统",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon ./src/app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/szGodfery/NodeMyProjectCase.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/szGodfery/NodeMyProjectCase/issues"
+    },
+    "homepage": "https://github.com/szGodfery/NodeMyProjectCase#readme",
+    "dependencies": {
+        "express": "^4.16.3",
+        "mongodb": "^3.1.4"
+    }
+}
