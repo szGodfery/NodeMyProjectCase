@@ -58,13 +58,14 @@ exports.Login = (req, res) => {
         const collection = db.collection('userInfo');
         //查询用户名是否存在
         collection.findOne({ username: req.body.username, password: req.body.password }, (err, doc) => {
-            if (doc == null) { //如果有值,表示存在,要返回给浏览器信息
+            if (doc == null) { //如果没有值,表示不存在,要返回给浏览器信息
                 client.close(); //关闭数据库连接
                 result.status = 2;
                 result.message = "用户名或密码错误";
                 res.json(result);
+            } else {
+                res.json(result);
             }
-            res.json(result);
         })
     })
 };
@@ -81,7 +82,7 @@ exports.getRegisterPage = (req, res) => {
  * 3.3最终处理,处理用户提交过来的注册信息
  */
 exports.registerInfo = (req, res) => {
-    console.log(req.body.username);
+    //console.log(req.body.username);
     const result = { status: 0, message: '注册成功' };
     //1,判断提交过来的注册信息用户名在数据库中是否存在,
     //链接数据库
@@ -92,7 +93,7 @@ exports.registerInfo = (req, res) => {
         const collection = db.collection('userInfo');
         //查询用户名是否存在
         collection.findOne({ username: req.body.username }, (err, doc) => {
-            console.log(doc);
+            //console.log(doc);
             if (doc) { //如果有值,表示存在,要返回给浏览器信息
                 client.close(); //关闭数据库连接
                 result.status = 1;

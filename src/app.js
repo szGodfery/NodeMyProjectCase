@@ -11,7 +11,12 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // Use the session middleware  服务器开启session
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 600000 } }));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false, //添加这行  解决express-session deprecated undefined resave option;警告
+    saveUninitialized: true, //添加这行  解决express-session deprecated undefined saveUninitialized option;警告
+    cookie: { maxAge: 600000 }
+}));
 
 
 //3.使用集成路由分发
