@@ -51,32 +51,8 @@
             </div>
             <div class="col-md-9">
                 <!-- 中间占位 -->
+                {{{block("body")}}}
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <ol class="breadcrumb">
-                            <li>
-                                <a href="#">首页</a>
-                            </li>
-                            <li>
-                                <a href="#">学生管理</a>
-                            </li>
-                            <li class="active">学生列表</li>
-                        </ol>
-                    </div>
-                    <div class="panel-heading">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">学生姓名</span>
-                            <input type="text" class="form-control" id="studentNameId" placeholder="请输入学生姓名进行查询" aria-describedby="basic-addon1" style="width:200px;margin-right:10px;" value="">
-                            <input type="button" class="btn btn-success" onclick="search()" value="查找" style="margin-right:10px;">
-                            <input type="button" class="btn btn-success" value="新增" onclick="window.location='/studentmanager/add'">
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <!-- 使用模板占位 -->
-                        {{{block("body")}}}
-                    </div>
-                </div>
 
 
 </html>

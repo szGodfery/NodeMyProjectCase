@@ -1,13 +1,7 @@
 //1,引入路径
 const path = require('path');
 const captchapng = require('captchapng'); //图片验证码第三方包
-const mongodb = require('mongodb'); //导入第三方mongodb包
-//创建mongodb客户端
-const mongoClient = mongodb.MongoClient;
-const url = 'mongodb://Localhost:27017';
-const dbName = 'web21';
-
-
+const databaseTool = require(path.join(__dirname, '../tools/databaseTool')); //导入databaseTool模块
 
 //2,导出模块
 
@@ -18,7 +12,7 @@ module.exports.getLoginPage = (req, res) => {
     res.sendFile(path.join(__dirname, '../statics/views/login.html'));
 };
 /**
- * 3.0.1最终处理,处理图片验证码给浏览器
+ * 3.0.1最终处理,处理图片验证码返回浏览器 
  */
 exports.getVcode = (req, res) => {
     const vCode = parseInt(Math.random() * 9000 + 1000);
@@ -50,26 +44,17 @@ exports.Login = (req, res) => {
         res.json(result);
         return;
     }
-    //在把用户名和密码与数据库查询
-    mongoClient.connect(url, { useNewUrlParser: true }, function(err, client) { //链接数据库
-        //创建db对象
-        const db = client.db(dbName);
-        //获取数据集合
-        const collection = db.collection('userInfo');
-        //查询用户名是否存在
-        collection.findOne({ username: req.body.username, password: req.body.password }, (err, doc) => {
-            if (doc == null) { //如果没有值,表示不存在,要返回给浏览器信息
-                client.close(); //关闭数据库连接
-                result.status = 2;
-                result.message = "用户名或密码错误";
-                res.json(result);
-            } else {
-                res.json(result);
-            }
-        })
+    //在把用户名和密码在   数据库查询
+    databaseTool.findOne('userInfo', { username: req.body.username, password: req.body.password }, (err, doc) => {
+        if (doc == null) { //如果没有值,表示不存在,要返回给浏览器信息
+            result.status = 2;
+            result.message = "用户名或密码错误";
+            res.json(result);
+        } else {
+            res.json(result);
+        }
     })
 };
-
 
 /**
  * 3.2最终处理,返回注册页面给浏览器
@@ -86,30 +71,20 @@ exports.registerInfo = (req, res) => {
     const result = { status: 0, message: '注册成功' };
     //1,判断提交过来的注册信息用户名在数据库中是否存在,
     //链接数据库
-    mongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
-        //创建db对象
-        const db = client.db(dbName);
-        //获取数据集合
-        const collection = db.collection('userInfo');
-        //查询用户名是否存在
-        collection.findOne({ username: req.body.username }, (err, doc) => {
-            //console.log(doc);
-            if (doc) { //如果有值,表示存在,要返回给浏览器信息
-                client.close(); //关闭数据库连接
-                result.status = 1;
-                result.message = "用户名已存在";
-                res.json(result);
-            } else {
-                //把数据插入到数据库
-                collection.insertOne(req.body, (err, result2) => {
-                    if (result2 == null) { //如果为空就提示注册失败,
-                        client.close(); //关闭数据库连接
-                        result.status = 2;
-                        result.message = "注册失败"
-                    }
-                    res.json(result)
-                })
-            }
-        })
+    databaseTool.findOne('userInfo', { username: req.body.username }, (err, doc) => {
+        if (doc) { //如果有值,表示存在,要返回给浏览器信息
+            result.status = 1;
+            result.message = "用户名已存在";
+            res.json(result);
+        } else {
+            //把数据插入到数据库
+            databaseTool.insertOne('userInfo', req.body, (err, result2) => {
+                if (result2 == null) { //如果为空就提示注册失败,
+                    result.status = 2;
+                    result.message = "注册失败"
+                }
+                res.json(result)
+            })
+        }
     })
-}
+};

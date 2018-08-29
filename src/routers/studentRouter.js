@@ -7,7 +7,7 @@ const studentRouter = express.Router();
 const studentCTRL = require(path.join(__dirname, '../controllers/studentControllerRouter.js'));
 
 //3.1,处理登录过来的请求
-studentRouter.get('/studentManager', studentCTRL.student);
+studentRouter.get('/studentManager/list.html', studentCTRL.student);
 
 
 
