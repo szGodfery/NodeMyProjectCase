@@ -13,9 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // Use the session middleware  服务器开启session
 app.use(session({
     secret: 'keyboard cat',
-    resave: false, //添加这行  解决express-session deprecated undefined resave option;警告
-    saveUninitialized: true, //添加这行  解决express-session deprecated undefined saveUninitialized option;警告
-    cookie: { maxAge: 600000 }
+    resave: false, //添加这行  是否每次都重新保存会话，建议false
+    saveUninitialized: false, //添加这行 是否自动保存未初始化的会话，建议false
+    cookie: { maxAge: 30 * 60000 } //有效期，单位是毫秒
 }));
 
 

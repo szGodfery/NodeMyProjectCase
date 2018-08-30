@@ -18,7 +18,7 @@ exports.getVcode = (req, res) => {
     const vCode = parseInt(Math.random() * 9000 + 1000);
     //为了与登录输入的图片码进行验证,需要在服务器开启sesson,在app.js引入第三方包express-session
     req.session.vCode = vCode; //设置session
-    //console.log(req.session.vCode);//取值session
+    console.log(req.session.vCode); //取值session
 
     const p = new captchapng(80, 30, vCode); // width,height,numeric captcha
     p.color(0, 0, 0, 0); // First color: background (red, green, blue, alpha)
@@ -51,6 +51,8 @@ exports.Login = (req, res) => {
             result.message = "用户名或密码错误";
             res.json(result);
         } else {
+            //开启session 把登录名存下来
+            req.session.LoginName = req.body.username;
             res.json(result);
         }
     })

@@ -74,10 +74,8 @@
                 vCode
             },
             success: function(result) {
-                //console.log(result);
                 if (result.status == 0) {
-                    location.href = '/student/studentManager/list.html';
-
+                    location.href = `/student/studentManager/list.html?loginName=${username}`;
                 } else if (result.status == 1) {
                     alert('验证码信息错误');
                     $("#vcodeimgId").click();
@@ -85,11 +83,10 @@
                     alert('用户名或密码错误');
                     $("#vcodeimgId").click();
                 }
-                const username = $("#usernameId").val('');
-                const password = $("#passwordId").val('');
-                const vCode = $("#vcodeId").val('');
+                $("#usernameId").val('');
+                $("#passwordId").val('');
+                $("#vcodeId").val('');
             }
-
         })
     };
 
