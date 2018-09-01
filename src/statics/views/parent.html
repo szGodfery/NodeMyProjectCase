@@ -11,7 +11,7 @@
     <!-- Bootstrap -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script>
+    <!-- <script>
         //判断是否登录
         $.get({
             url: '/student/studentManager/checkLogin',
@@ -24,7 +24,7 @@
                 }
             }
         })
-    </script>
+    </script> -->
 </head>
 
 <body>
@@ -60,19 +60,19 @@
                     <a href="#" class="list-group-item">系统管理</a>
                     <a href="#" class="list-group-item">用户管理</a>
                     <a href="#" class="list-group-item">修改密码</a>
-                    <a href="#" class="list-group-item">退出系统</a>
+                    <a href="javascript:logout()" class="list-group-item">退出系统</a>
                 </div>
             </div>
             <div class="col-md-9">
                 <!-- 中间占位 -->
-                {{{block("body")}}}
+                {{block "body"}} {{/block}}
             </div>
 
 </html>
 <script>
     function logout() {
         $.get({
-            url: '/student/studentManger/logout',
+            url: '/account/logout',
             success: function(result) {
                 console.log(result);
                 if (result.status == 0) {

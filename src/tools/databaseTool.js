@@ -1,6 +1,7 @@
 //1,导入mongodb第三方包
 const mongodb = require('mongodb');
-const ObjectID = require('mongodb').ObjectID;
+//const ObjectID = require('mongodb').ObjectId;
+
 //2,创建mongo客户端
 const mongoClient = mongodb.MongoClient;
 //3,获取mongo服务器地址 url
@@ -22,7 +23,8 @@ function linkdb(collectionName, callback) {
     })
 };
 
-
+//注意:根据id查询的方法导出
+exports.ObjectID = require('mongodb').ObjectId;
 
 
 //5,导出查询多条方法(对象)
@@ -39,9 +41,9 @@ exports.findList = (collectionName, parames, callback) => {
 //6,导出查询一条方法(对象)
 exports.findOne = (collectionName, parames, callback) => {
     //6.1链接数据库
-    if (parames._id) {
-        parames._id = ObjectID(parames._id)
-    }
+    // if (parames._id) {
+    //     parames._id = ObjectID(parames._id)
+    // }
     linkdb(collectionName, (err, collection, client) => {
         //6.2查询一条
         collection.findOne(parames, (err, doc) => {
@@ -80,9 +82,9 @@ exports.insertMany = (collectionName, parames, callback) => {
 //9,导出修改一条方法对象
 exports.updateOne = (collectionName, where, set, callback) => {
     //8.2连接数据库
-    if (where._id) {
-        where._id = ObjectID(where._id);
-    }
+    // if (where._id) {
+    //     where._id = ObjectID(where._id);
+    // }
     linkdb(collectionName, (err, collection, client) => {
         if (err) throw err;
         collection.updateOne(where, { $set: set }, (err, result) => {
@@ -92,3 +94,13 @@ exports.updateOne = (collectionName, where, set, callback) => {
         })
     })
 };
+//10,导出删除一条方法   对象
+exports.deleteOne = (collectionName, parames, callback) => {
+    linkdb(collectionName, (err, collection, client) => {
+        collection.deleteOne(parames, (err, result) => {
+            client.close();
+            if (err) throw err;
+            callback(err, result);
+        })
+    })
+}

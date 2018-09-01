@@ -19,9 +19,11 @@
   },
   "homepage": "https://github.com/szGodfery/NodeMyProjectCase#readme",
   "dependencies": {
+    "art-template": "^4.13.0",
     "body-parser": "^1.18.3",
     "captchapng": "^0.0.1",
     "express": "^4.16.3",
+    "express-art-template": "^1.0.1",
     "express-session": "^1.15.6",
     "mongodb": "^3.1.4",
     "xtemplate": "^4.6.1",

@@ -1,14 +1,14 @@
 <!-- 子页面通过模板继承父页面 -->
-{{extend ("./parent.html")}}
+{{extend './parent.html'}}
 <!-- 继承父模板 -->
 
 <!-- 替换占位内容 -->
-{{#block ("body")}}
+{{block "body"}}
 <div class="panel panel-default">
     <div class="panel-heading">
         <ol class="breadcrumb">
             <li>
-                <a href="#">首页</a>
+                <a href="/student/studentManager/list.html">首页</a>
             </li>
             <li>
                 <a href="#">学生管理</a>
@@ -21,7 +21,7 @@
             <span class="input-group-addon" id="basic-addon1">学生姓名</span>
             <input type="text" class="form-control" id="studentNameId" placeholder="请输入学生姓名进行查询" aria-describedby="basic-addon1" style="width:200px;margin-right:10px;" value="{{keyword}}">
             <input type="button" class="btn btn-success" onclick="search()" value="查找" style="margin-right:10px;">
-            <input type="button" class="btn btn-success" value="新增" onclick="window.location='/studentmanager/add'">
+            <input type="button" class="btn btn-success" value="新增" onclick="window.location='/student/studentManager/add'">
         </div>
     </div>
     <div class="panel-body">
@@ -37,15 +37,15 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each(students)}}
+                {{each students value}}
                 <tr>
-                    <td>{{this.name}}</td>
-                    <td>{{this.age}}</td>
-                    <td>{{this.sex}}</td>
-                    <td>{{this.phone}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.age}}</td>
+                    <td>{{value.sex}}</td>
+                    <td>{{value.phone}}</td>
                     <td>
-                        <a href="/student/studentmanager/studentEdit?id={{this._id}}" class="btn btn-success">编辑</a> |
-                        <input type="button" onclick="deleteStudent('5b7c2717f396f8182b32c3f8')" class="btn btn-danger" value="删除">
+                        <a href="/student/studentmanager/studentEdit/{{value._id}}" class="btn btn-success">编辑</a>
+                        <input type="button" onclick="deleteStudent('{{value._id}}')" class="btn btn-danger" value="删除">
                     </td>
                 </tr>
                 {{/each}}
@@ -53,11 +53,15 @@
         </table>
     </div>
 </div>
-{{/block}}
-
 <script>
     function search() {
         const loginName = $('#login').data('name');
         location.href = `/student/studentManager/list.html?keyword=${$("#studentNameId").val()}&loginName=${loginName}`;
     }
+
+    function deleteStudent(studentId) {
+        location.href = `/student/studentManager/deleteStudent/${studentId}`;
+    }
 </script>
+
+{{/block}}

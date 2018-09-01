@@ -18,7 +18,7 @@ exports.getVcode = (req, res) => {
     const vCode = parseInt(Math.random() * 9000 + 1000);
     //为了与登录输入的图片码进行验证,需要在服务器开启sesson,在app.js引入第三方包express-session
     req.session.vCode = vCode; //设置session
-    console.log(req.session.vCode); //取值session
+    //console.log(req.session.vCode); //取值session
 
     const p = new captchapng(80, 30, vCode); // width,height,numeric captcha
     p.color(0, 0, 0, 0); // First color: background (red, green, blue, alpha)
@@ -88,5 +88,18 @@ exports.registerInfo = (req, res) => {
                 res.json(result)
             })
         }
+    })
+};
+
+/**
+ * 4,最终处理  处理退出登录信息
+ */
+exports.logout = (req, res) => {
+    //清除所有session
+    req.session.destroy(function(err) {
+        // cannot access session here
+        const result = { status: 0, message: "服务器session清除成功" }
+        if (err) throw err;
+        res.json(result);
     })
 };

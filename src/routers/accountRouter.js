@@ -26,6 +26,9 @@ accountRouter.get('/register.html', accountCTRL.getRegisterPage);
 //3.3处理注册请求
 accountRouter.post('/register', accountCTRL.registerInfo);
 
+//3.4,处理退出提交过来的请求
+accountRouter.get('/logout', accountCTRL.logout);
+
 
 
 

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 
 
+
 //2.创建app应用
 const app = express();
 // parse application/x-www-form-urlencoded   处理post请求,解析成对象
@@ -17,6 +18,28 @@ app.use(session({
     saveUninitialized: false, //添加这行 是否自动保存未初始化的会话，建议false
     cookie: { maxAge: 30 * 60000 } //有效期，单位是毫秒
 }));
+//art模板引擎
+app.engine('html', require('express-art-template'));
+app.set('view options', {
+    debug: process.env.NODE_ENV !== 'production'
+});
+//登录判断拦截
+app.all('/*', (req, res, next) => {
+    if (req.url.includes('account')) { //所有请求都会进入这里
+        next() //放行,next方法属于express中间件,调用它就是把控制权交给下一个组件
+    } else {
+        //判断是否有session,如果有,就放行
+        if (req.session.LoginName) {
+            next();
+
+        } else {
+            res.send(`<script>alert("账号未登录,请重新登录");location.href="/account/login.html"</script>`)
+        }
+    }
+
+});
+
+
 
 
 //3.使用集成路由分发
